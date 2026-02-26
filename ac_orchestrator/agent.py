@@ -1,6 +1,5 @@
 from google.adk.agents.llm_agent import Agent
-from ac_orchestrator.tools.ac_tools import control_ac
-import time
+from tools.ac_tools import control_ac
 
 
 def classify_intent(user_input: str) -> dict:
@@ -24,10 +23,16 @@ def classify_intent(user_input: str) -> dict:
 
 root_agent = Agent(
     name="ac_orchestrator",
-    model="gemini-2.5-flash",
+
+    # 🔥 Changed model here
+    model="huggingface/HuggingFaceH4/zephyr-7b-beta",
+
     description="AC control orchestration agent.",
+
     instruction="""
 You are a smart AC controller.
+
+Always respond in strict JSON.
 
 Step 1:
 Call classify_intent(user_input).
@@ -55,5 +60,6 @@ If user says:
 
 You MUST call tools properly.
 """,
+
     tools=[classify_intent, control_ac],
 )
