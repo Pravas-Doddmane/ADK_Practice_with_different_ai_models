@@ -24,7 +24,7 @@ def classify_intent(user_input: str) -> dict:
 
 root_agent = Agent(
     name="ac_orchestrator",
-    model="gemini-2.5-flash",
+    model="claude-3-5-sonnet-20241022",  # 🔥 CHANGED TO CLAUDE
     description="AC control orchestration agent.",
     instruction="""
 You are a smart AC controller.
