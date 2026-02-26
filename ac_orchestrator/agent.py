@@ -1,5 +1,6 @@
 from google.adk.agents.llm_agent import Agent
-from tools.ac_tools import control_ac
+from ac_orchestrator.tools.ac_tools import control_ac
+import time
 
 
 def classify_intent(user_input: str) -> dict:
@@ -23,16 +24,10 @@ def classify_intent(user_input: str) -> dict:
 
 root_agent = Agent(
     name="ac_orchestrator",
-
-    # 🔥 Changed model here
-    model="huggingface/HuggingFaceH4/zephyr-7b-beta",
-
+    model="mistral-small-latest",  # 🔥 CHANGED FROM GEMINI
     description="AC control orchestration agent.",
-
     instruction="""
 You are a smart AC controller.
-
-Always respond in strict JSON.
 
 Step 1:
 Call classify_intent(user_input).
@@ -58,8 +53,8 @@ If user says:
 "I feel cold" → INCREASE_TEMP by 2
 "I feel hot" → DECREASE_TEMP by 2
 
+Always respond ONLY in valid JSON.
 You MUST call tools properly.
 """,
-
     tools=[classify_intent, control_ac],
 )
